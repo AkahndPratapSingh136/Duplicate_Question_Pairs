@@ -1,0 +1,35 @@
+name: Unzip and Rename Model
+
+on:
+  push:
+    branches:
+      - main  # Adjust branch name if necessary
+
+jobs:
+  unzip_and_rename:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Install unzip
+        run: sudo apt-get install unzip
+        
+      - name: Unzip model.zip
+        run: unzip model.zip
+        
+      - name: Rename extracted file to model.pkl
+        run: mv path/to/extracted/file path/to/destination/model.pkl
+        
+      - name: Commit changes
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add .
+          git commit -m "Unzip and rename model.pkl"
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
